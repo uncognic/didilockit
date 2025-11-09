@@ -1,7 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.DidILockIt" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
+    <!-- CHANGE THE PARENT THEME on the next line -->
+    <style name="Theme.DidIlockit" parent="Theme.Material3.DayNight.NoActionBar">        <!--
+            Primary brand color. This will be used as a fallback
+            on older Android versions that don't support Dynamic Color.
+        -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
