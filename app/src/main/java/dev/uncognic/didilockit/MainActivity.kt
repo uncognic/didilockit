@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.*
 import dev.uncognic.didilockit.ui.home.LockScreen
 import dev.uncognic.didilockit.ui.theme.DidILockItTheme
-
+@OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,12 +32,21 @@ class MainActivity : ComponentActivity() {
                         NavigationBar {
                             NavigationBarItem(
                                 selected = true,
-                                onClick = {  },
+                                onClick = { },
                                 icon = { Icon(Icons.Filled.Home, contentDescription = null) },
                                 label = { Text("Home") }
                             )
                         }
+
+                    },
+                    topBar = {
+                        TopAppBar(
+                            title = { Text("Did I Lock It?") },
+
+
+                        )
                     }
+
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
