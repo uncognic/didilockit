@@ -1,39 +1,57 @@
-package dev.uncognic.didilockit // Make sure this package name matches yours
+// In /app/src/main/java/dev/uncognic/didilockit/MainActivity.kt
+
+package dev.uncognic.didilockit
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.color.DynamicColors
-import dev.uncognic.didilockit.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.*
+import dev.uncognic.didilockit.ui.home.LockScreen
+import dev.uncognic.didilockit.ui.theme.DidILockItTheme
 
-
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        DynamicColors.applyToActivitiesIfAvailable(application)
         super.onCreate(savedInstanceState)
 
-        // This is View Binding, the modern way to access views.
-        // It replaces findViewById().
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        val statusManager = StatusManager(applicationContext)
 
-        // In Kotlin, 'val' is like 'final' in Java. 'var' is a mutable variable.
-        val navView: BottomNavigationView = binding.navView
 
-        // This finds the NavController from your NavHostFragment in activity_main.xml
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        setContent {
+            DidILockItTheme {
+                val navController = rememberNavController()
+                Scaffold(
+                    bottomBar = {
 
-        // This is the magic line!
-        // It connects your BottomNavigationView with the NavController.
-        // When you tap "Settings," the NavController will automatically handle
-        // swapping the fragment to your SettingsFragment. [1]
-        navView.setupWithNavController(navController)
+                        NavigationBar {
+                            NavigationBarItem(
+                                selected = true,
+                                onClick = {  },
+                                icon = { Icon(Icons.Filled.Home, contentDescription = null) },
+                                label = { Text("Home") }
+                            )
+                        }
+                    }
+                ) { innerPadding ->
+                    NavHost(
+                        navController = navController,
+                        startDestination = "home",
+                        modifier = Modifier.padding(innerPadding)
+                    ) {
+                        composable("home") {
+
+                            LockScreen(statusManager = statusManager)
+                        }
+
+                    }
+                }
+            }
+        }
     }
 }
