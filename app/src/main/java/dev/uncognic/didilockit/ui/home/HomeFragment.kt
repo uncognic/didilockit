@@ -2,6 +2,7 @@
 package dev.uncognic.didilockit.ui.home
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,8 @@ class HomeFragment : Fragment() {
 fun LockScreen(statusManager: StatusManager) {
 
     val isLocked by statusManager.lockStatusFlow.collectAsStateWithLifecycle(initialValue = false)
+    val lastTime by statusManager.lastUpdatedFlow.collectAsStateWithLifecycle(initialValue = "Never")
+
 
     val scope = rememberCoroutineScope()
 
@@ -59,32 +62,31 @@ fun LockScreen(statusManager: StatusManager) {
             text = if (isLocked) "Locked" else "Unlocked",
             fontSize = 50.sp
         )
+        Text(
+            text = "Last updated: $lastTime",
+            fontSize = 16.sp
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
-
-
         Button(
             onClick = {
                 scope.launch {
-                    statusManager.set_status(true)
+                    val newStatus = !isLocked
+                    statusManager.setStatus(newStatus)
+                    statusManager.updateTime(System.currentTimeMillis())
                 }
             },
-            enabled = !isLocked
+            colors = if (isLocked) {
+                ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+            } else {
+                ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.inversePrimary)
+            }
         ) {
-            Text("Lock")
+            Text(
+                if (isLocked) "Unlock" else "Lock",
+            )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                scope.launch {
-                    statusManager.set_status(false)
-                }
-            },
-            enabled = isLocked
-        ) {
-            Text("Unlock")
-        }
     }
+
 }

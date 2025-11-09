@@ -1,5 +1,3 @@
-// In /app/src/main/java/dev/uncognic/didilockit/MainActivity.kt
-
 package dev.uncognic.didilockit
 
 import android.os.Bundle
@@ -9,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.*
 import dev.uncognic.didilockit.ui.home.LockScreen
@@ -19,14 +16,20 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val statusManager = StatusManager(applicationContext)
-
-
         setContent {
             DidILockItTheme {
                 val navController = rememberNavController()
                 Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text("Did I Lock It?") },
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.surface
+                            )
+
+                        )
+                    },
                     bottomBar = {
 
                         NavigationBar {
@@ -38,13 +41,6 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                    },
-                    topBar = {
-                        TopAppBar(
-                            title = { Text("Did I Lock It?") },
-
-
-                        )
                     }
 
                 ) { innerPadding ->
@@ -54,7 +50,6 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable("home") {
-
                             LockScreen(statusManager = statusManager)
                         }
 
