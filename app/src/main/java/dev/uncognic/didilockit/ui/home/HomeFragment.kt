@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -76,10 +77,13 @@ fun LockScreen(statusManager: StatusManager) {
                     statusManager.updateTime(System.currentTimeMillis())
                 }
             },
+            modifier = Modifier
+                .width(200.dp)
+                .height(60.dp),
             colors = if (isLocked) {
-                ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
-            } else {
                 ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.inversePrimary)
+            } else {
+                ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             }
         ) {
             Text(

@@ -30,18 +30,7 @@ class MainActivity : ComponentActivity() {
 
                         )
                     },
-                    bottomBar = {
-
-                        NavigationBar {
-                            NavigationBarItem(
-                                selected = true,
-                                onClick = { },
-                                icon = { Icon(Icons.Filled.Home, contentDescription = null) },
-                                label = { Text("Home") }
-                            )
-                        }
-
-                    }
+                    
 
                 ) { innerPadding ->
                     NavHost(
